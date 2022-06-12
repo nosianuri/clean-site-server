@@ -51,6 +51,32 @@ async function run() {
     //     res.send({ status: false, error });
     //   }
     // });
+
+    app.put("/update-service/:id", async (req, res) => {
+        const { id } = req.params;
+        const data = req.body;
+  
+        const filter = { _id: ObjectId(id) };
+        const updateDoc = { $set: data };
+        const option = { upsert: true };
+  
+        const result = await servicesCollection.updateOne(
+          filter,
+          updateDoc,
+          option
+        );
+  
+        res.send(result);
+      });
+
+      app.delete("/delete-service/:id", async (req, res) => {
+        const { id } = req.params;
+        const query = { _id: ObjectId(id) };
+        const result = await servicesCollection.deleteOne(query);
+  
+        res.send(result);
+      });
+      
     } finally {
     }
 }
