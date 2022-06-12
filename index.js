@@ -28,11 +28,29 @@ async function run() {
       delete /delete-service => delete a data from collection
     */
 
-        app.get("/service", async (req, res) => {
-            const services = await servicesCollection.find({}).toArray();
-            console.log(services);
-            res.send(services);
-        });
+      app.get("/get-service", async (req, res) => {
+        const services = await servicesCollection.find({}).toArray();
+        console.log(services);
+        res.send(services);
+      });
+  
+      app.post("/add-service", async (req, res) => {
+        const data = req.body;
+        const result = await servicesCollection.insertOne(data);
+        res.send(result);
+      });
+
+       //* With try catch block
+
+    // app.post("/add-service", async (req, res) => {
+    //   try {
+    //     const data = req.body;
+    //     const result = await servicesCollection.insertOne(data);
+    //     res.send({ status: true, result: result });
+    //   } catch (error) {
+    //     res.send({ status: false, error });
+    //   }
+    // });
     } finally {
     }
 }
